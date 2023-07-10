@@ -1,5 +1,7 @@
-import type { Post, Content } from "@/types/post";
+import Head from "next/head";
 import { getAllPosts, getPost } from "@/lib/post";
+
+import type { Post, Content } from "@/types/post";
 
 export const getStaticPaths = async () => {
   const posts = getAllPosts();
@@ -44,9 +46,14 @@ export default function PostPage({
   if (!post) return null;
 
   return (
-    <section className="flex flex-col items-center py-10">
-      <div className="p-2 font-bold text-gray-600">title : {post.title}</div>
-      <div dangerouslySetInnerHTML={{ __html: markdown }} />
-    </section>
+    <div>
+      <Head>
+        <title>{post.title}</title>
+      </Head>
+      <section className="flex flex-col items-center py-10">
+        <div className="p-2 font-bold text-gray-600">title : {post.title}</div>
+        <div dangerouslySetInnerHTML={{ __html: markdown }} />
+      </section>
+    </div>
   );
 }

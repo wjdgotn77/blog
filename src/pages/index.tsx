@@ -1,5 +1,6 @@
-import Link from "next/link";
+import type { PostData } from "@/types/post";
 
+import Link from "next/link";
 import { getAllPosts } from "@/lib/post";
 
 export const getStaticProps = () => {
@@ -10,12 +11,10 @@ export const getStaticProps = () => {
   };
 };
 
-export default function Home({ posts }: any) {
-  console.log(posts);
-
+export default function Home({ posts }: { posts: PostData }) {
   return (
     <main className="flex flex-col items-center justify-center gap-4">
-      {posts.map((post: any, index: any) => (
+      {posts.map((post, index) => (
         <Link key={index} href={post.data.slug}>
           {post.data.title}
         </Link>

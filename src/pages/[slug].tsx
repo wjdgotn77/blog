@@ -1,3 +1,4 @@
+import type { Post, Content } from "@/types/post";
 import { getAllPosts, getPost } from "@/lib/post";
 
 export const getStaticPaths = async () => {
@@ -16,7 +17,11 @@ export const getStaticPaths = async () => {
   };
 };
 
-export const getStaticProps = async ({ params }: { params: any }) => {
+export const getStaticProps = async ({
+  params,
+}: {
+  params: { slug: string };
+}) => {
   const post = await getPost(params.slug);
 
   return {
@@ -27,13 +32,21 @@ export const getStaticProps = async ({ params }: { params: any }) => {
   };
 };
 
-export default function PostPage({ post, content }: any) {
+export default function PostPage({
+  post,
+  content,
+}: {
+  post: Post;
+  content: Content;
+}) {
+  const markdown = `${content}`;
+
   if (!post) return null;
 
   return (
-    <>
-      <div>{post.title}</div>
-      <div>{content}</div>
-    </>
+    <section className="flex flex-col items-center py-10">
+      <div className="p-2 font-bold text-gray-600">title : {post.title}</div>
+      <div dangerouslySetInnerHTML={{ __html: markdown }} />
+    </section>
   );
 }
